@@ -89,6 +89,8 @@ if __name__ == "__main__":
     parser.add_argument('--threads', type=int, default=6, help='Number of threads for each data loader to use')
     parser.add_argument('--nocuda', action='store_true', help='If true, use CPU only. Else use GPU.')
 
+    # os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
+
 
     opt = parser.parse_args()
     print(opt)
@@ -159,6 +161,11 @@ if __name__ == "__main__":
 
             print('===> Calculating descriptors and clusters')
             get_clusters(train_dataset, model, encoder_dim, device, opt, config)
+
+            # 复制文件
+            shutil.copyfile(initcache, initcache + '.bk')
+            os.remove(initcache)
+            os.rename(initcache + '.bk', initcache)
 
             # a little hacky, but needed to easily run init_params
             model = model.to(device="cpu")

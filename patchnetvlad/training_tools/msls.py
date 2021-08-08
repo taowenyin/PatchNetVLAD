@@ -331,7 +331,7 @@ class MSLS(Dataset):
         seqInfo = pd.read_csv(join(path, 'seq_info.csv'), index_col=0)
 
         seq_keys, seq_idxs = [], []
-        for idx in data.index:
+        for idx in tqdm(data.index):
 
             # edge cases.
             if idx < (seq_length // 2) or idx >= (len(seqInfo) - seq_length // 2):
